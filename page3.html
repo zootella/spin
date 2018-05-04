@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>page3</title>
+	</head>
+	<body>
+
+		<!-- clock -->
+		<p><span id="clock"></span> milliseconds since January 1970</p>
+		<script>
+
+			setInterval(function() {
+				var d = new Date();
+				document.getElementById("clock").innerHTML = d + "<br>" + d.getTime();
+			}, 100); // Update 10 times a second
+
+		</script>
+
+		<!-- spin -->
+		<p><button onclick="spin7()">7. setImmediate, update once</button> <span id="result7"></span></p>
+		<p><button onclick="spin8()">8. setImmediate, update every time</button> <span id="result8"></span></p>
+		<p><button onclick="spin9()">9. window.requestAnimationFrame, update every time</button> <span id="result9"></span></p>
+		<p><button onclick="spin10()">10. setImmediate, update every animation frame</button> <span id="result10"></span></p>
+		<script>
+
+			function spin7() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) setImmediate(f);
+					else document.getElementById("result7").innerHTML = count;
+				}
+			}
+
+			function spin8() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					if (Date.now() < start + 1000) {
+						count++;
+						document.getElementById("result8").innerHTML = count;
+						setImmediate(f);
+					}
+				}
+			}
+
+			function spin9() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					if (Date.now() < start + 1000) {
+						count++;
+						document.getElementById("result9").innerHTML = count;
+						window.requestAnimationFrame(f);
+					}
+				}
+			}
+
+			function spin10() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				g();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) setImmediate(f);
+				}
+				function g() {
+					document.getElementById("result10").innerHTML = count;
+					if (Date.now() < start + 1000) window.requestAnimationFrame(g);
+				}
+			}
+
+		</script>
+
+	</body>
+</html>

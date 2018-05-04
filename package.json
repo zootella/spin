@@ -1,0 +1,11 @@
+{
+  "name": "spin",
+  "version": "1.0.0",
+  "main": "electron.js",
+  "scripts": {
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "jquery": "^3.3.1"
+  }
+}

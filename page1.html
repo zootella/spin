@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>page1</title>
+	</head>
+	<body>
+
+		<!-- clock -->
+		<p><span id="clock"></span> milliseconds since January 1970</p>
+		<script>
+
+			setInterval(function() {
+				var d = new Date();
+				document.getElementById("clock").innerHTML = d + "<br>" + d.getTime();
+			}, 100); // Update 10 times a second
+
+		</script>
+
+		<!-- spin -->
+		<p><button onclick="spin1()">1. synchronous loop</button> <span id="result1"></span></p>
+		<p><button onclick="spin2()">2. setImmediate</button> <span id="result2"></span></p>
+		<p><button onclick="spin3()">3. setTimeout</button> <span id="result3"></span></p>
+		<p><button onclick="spin4()">4. process.nextTick</button> <span id="result4"></span></p>
+		<p><button onclick="spin5()">5. Promise</button> <span id="result5"></span></p>
+		<script>
+
+			function spin1() {
+				var count = 0;
+				var start = Date.now();
+				while (Date.now() < start + 1000) {
+					count++;
+				}
+				document.getElementById("result1").innerHTML = count;
+			}
+
+			function spin2() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) setImmediate(f);
+					else document.getElementById("result2").innerHTML = count;
+				}
+			}
+
+			function spin3() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) setTimeout(f, 0);
+					else document.getElementById("result3").innerHTML = count;
+				}
+			}
+
+			function spin4() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) process.nextTick(f);
+					else document.getElementById("result4").innerHTML = count;
+				}
+			}
+
+			function spin5() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) Promise.resolve().then(f);
+					else document.getElementById("result5").innerHTML = count;
+				}
+			}
+
+		</script>
+
+	</body>
+</html>
