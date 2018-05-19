@@ -18,36 +18,25 @@
 		</script>
 
 		<!-- spin -->
-		<p><button onclick="spin7()">7. setImmediate, update once</button> <span id="result7"></span></p>
-		<p><button onclick="spin8()">8. setImmediate, update every time</button> <span id="result8"></span></p>
-		<p><button onclick="spin9()">9. window.requestAnimationFrame, update every time</button> <span id="result9"></span></p>
-		<p><button onclick="spin10()">10. setImmediate, update every animation frame</button> <span id="result10"></span></p>
+		<p><button onclick="spin8()">8. setImmediate, update once</button> <span id="result8"></span></p>
+		<p><button onclick="spin9()">9. setImmediate, update every time</button> <span id="result9"></span></p>
+		<p><button onclick="spin10()">10. window.requestAnimationFrame, update every time</button> <span id="result10"></span></p>
+		<p><button onclick="spin11()">11. setImmediate, update every animation frame</button> <span id="result11"></span></p>
 		<script>
 
-			function spin7() {
+			// setImmediate, update once
+			function spin8() {
 				var count = 0;
 				var start = Date.now();
 				f();
 				function f() {
 					count++;
 					if (Date.now() < start + 1000) setImmediate(f);
-					else document.getElementById("result7").innerHTML = count;
+					else document.getElementById("result8").innerHTML = count;
 				}
 			}
 
-			function spin8() {
-				var count = 0;
-				var start = Date.now();
-				f();
-				function f() {
-					if (Date.now() < start + 1000) {
-						count++;
-						document.getElementById("result8").innerHTML = count;
-						setImmediate(f);
-					}
-				}
-			}
-
+			// setImmediate, update every time
 			function spin9() {
 				var count = 0;
 				var start = Date.now();
@@ -56,12 +45,27 @@
 					if (Date.now() < start + 1000) {
 						count++;
 						document.getElementById("result9").innerHTML = count;
+						setImmediate(f);
+					}
+				}
+			}
+
+			// window.requestAnimationFrame, update every time
+			function spin10() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					if (Date.now() < start + 1000) {
+						count++;
+						document.getElementById("result10").innerHTML = count;
 						window.requestAnimationFrame(f);
 					}
 				}
 			}
 
-			function spin10() {
+			// setImmediate, update every animation frame
+			function spin11() {
 				var count = 0;
 				var start = Date.now();
 				f();
@@ -71,7 +75,7 @@
 					if (Date.now() < start + 1000) setImmediate(f);
 				}
 				function g() {
-					document.getElementById("result10").innerHTML = count;
+					document.getElementById("result11").innerHTML = count;
 					if (Date.now() < start + 1000) window.requestAnimationFrame(g);
 				}
 			}

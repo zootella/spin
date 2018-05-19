@@ -19,17 +19,17 @@
 		</script>
 
 		<!-- spin -->
-		<p><button onclick="spin6()">6. bluebird</button> <span id="result6"></span></p>
+		<p><button onclick="spin7()">7. bluebird</button> <span id="result7"></span></p>
 		<script>
 
-			function spin6() {
+			function spin7() {
 				var count = 0;
 				var start = Date.now();
 				f();
 				function f() {
 					count++;
 					if (Date.now() < start + 1000) Promise.resolve().then(f);
-					else document.getElementById("result6").innerHTML = count;
+					else document.getElementById("result7").innerHTML = count;
 				}
 			}
 

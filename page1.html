@@ -18,11 +18,12 @@
 		</script>
 
 		<!-- spin -->
-		<p><button onclick="spin1()">1. synchronous loop</button> <span id="result1"></span></p>
-		<p><button onclick="spin2()">2. setImmediate</button> <span id="result2"></span></p>
-		<p><button onclick="spin3()">3. setTimeout</button> <span id="result3"></span></p>
-		<p><button onclick="spin4()">4. process.nextTick</button> <span id="result4"></span></p>
-		<p><button onclick="spin5()">5. Promise</button> <span id="result5"></span></p>
+		<p><button onclick="spin1()">1. synchronous loop, update once</button> <span id="result1"></span></p>
+		<p><button onclick="spin2()">2. synchronous loop, update every time</button> <span id="result2"></span></p>
+		<p><button onclick="spin3()">3. setImmediate</button> <span id="result3"></span></p>
+		<p><button onclick="spin4()">4. setTimeout</button> <span id="result4"></span></p>
+		<p><button onclick="spin5()">5. process.nextTick</button> <span id="result5"></span></p>
+		<p><button onclick="spin6()">6. Promise</button> <span id="result6"></span></p>
 		<script>
 
 			function spin1() {
@@ -37,11 +38,9 @@
 			function spin2() {
 				var count = 0;
 				var start = Date.now();
-				f();
-				function f() {
+				while (Date.now() < start + 1000) {
 					count++;
-					if (Date.now() < start + 1000) setImmediate(f);
-					else document.getElementById("result2").innerHTML = count;
+					document.getElementById("result2").innerHTML = count;
 				}
 			}
 
@@ -51,7 +50,7 @@
 				f();
 				function f() {
 					count++;
-					if (Date.now() < start + 1000) setTimeout(f, 0);
+					if (Date.now() < start + 1000) setImmediate(f);
 					else document.getElementById("result3").innerHTML = count;
 				}
 			}
@@ -62,7 +61,7 @@
 				f();
 				function f() {
 					count++;
-					if (Date.now() < start + 1000) process.nextTick(f);
+					if (Date.now() < start + 1000) setTimeout(f, 0);
 					else document.getElementById("result4").innerHTML = count;
 				}
 			}
@@ -73,8 +72,19 @@
 				f();
 				function f() {
 					count++;
-					if (Date.now() < start + 1000) Promise.resolve().then(f);
+					if (Date.now() < start + 1000) process.nextTick(f);
 					else document.getElementById("result5").innerHTML = count;
+				}
+			}
+
+			function spin6() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) Promise.resolve().then(f);
+					else document.getElementById("result6").innerHTML = count;
 				}
 			}
 

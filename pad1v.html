@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>pad1v</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	</head>
+	<body>
+
+		<p>try out small stuff in vue</p>
+
+		<div id="page">
+			<p>{{ spin1 }} milliseconds since January 1970</p>
+			<p>{{ spin2 }} counted by window.requestAnimationFrame</p>
+			<p>{{ spin3 }} counted by setImmediate</p>
+		</div>
+		<script>
+
+			var page = new Vue({
+				el: "#page",
+				data: {
+					spin1: "",
+					spin2: "",
+					spin3: ""
+				},
+			});
+
+			function s1() {
+				var d = new Date();
+				page.spin1 = d + " " + d.getTime();
+				window.requestAnimationFrame(s1);
+			}
+			s1();
+
+			var n2 = 0;
+			function s2() {
+				n2++;
+				page.spin2 = n2;
+				window.requestAnimationFrame(s2);
+			}
+			s2();
+
+			var n3 = 0;
+			function f() {
+				n3++;
+				setImmediate(f);
+			}
+			function g() {
+				page.spin3 = n3;
+				window.requestAnimationFrame(g);
+			}
+			f();
+			g();
+
+		</script>
+
+	</body>
+</html>

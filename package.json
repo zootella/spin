@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "main": "electron.js",
   "scripts": {
+    "electron-version": "electron --version",
+    "electron-page": "electron page.js"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
+    "electron": "^2.0.1",
     "jquery": "^3.3.1"
   }
 }

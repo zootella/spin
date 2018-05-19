@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>pad1j</title>
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.js"></script>
+	</head>
+	<body>
+
+		<p>try out small stuff in jquery</p>
+
+		<!-- clock -->
+		<p><span id="clock"></span> milliseconds since January 1970</p>
+		<script>
+
+			setInterval(function() {
+				var d = new Date();
+				document.getElementById("clock").innerHTML = d + "<br>" + d.getTime();
+			}, 100); // Update 10 times a second
+
+		</script>
+
+	</body>
+</html>

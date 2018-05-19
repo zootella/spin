@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>page4</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+	</head>
+	<body>
+
+		<!-- clock -->
+		<p><span id="clock"></span> milliseconds since January 1970</p>
+		<script>
+
+			setInterval(function() {
+				var d = new Date();
+				document.getElementById("clock").innerHTML = d + "<br>" + d.getTime();
+			}, 100); // Update 10 times a second
+
+		</script>
+
+		<!-- spin -->
+		<div id="page">
+			<p><button @click="method12">12. Vue synchronous loop, update once</button> {{ result12 }}</p>
+			<p><button @click="method13">13. Vue synchronous loop, update every time</button> {{ result13 }}</p>
+			<p><button @click="method14">14. Vue setImmediate, update once</button> {{ result14 }}</p>
+			<p><button @click="method15">15. Vue setImmediate, update every time</button> {{ result15 }}</p>
+			<p><button @click="method16">16. Vue window.requestAnimationFrame, update every time</button> {{ result16 }}</p>
+			<p><button @click="method17">17. Vue setImmediate, update every animation frame</button> {{ result17 }}</p>
+		</div>
+		<script>
+
+			var page = new Vue({
+				el: "#page",
+				data: {
+					result12: "",
+					result13: "",
+					result14: "",
+					result15: "",
+					result16: "",
+					result17: ""
+				},
+				methods: {
+					method12: spin12,
+					method13: spin13,
+					method14: spin14,
+					method15: spin15,
+					method16: spin16,
+					method17: spin17
+				}
+			});
+
+			// Vue synchronous loop, update once
+			function spin12() {
+				var count = 0;
+				var start = Date.now();
+				while (Date.now() < start + 1000) {
+					count++;
+				}
+				page.result12 = count;
+			}
+
+			// Vue synchronous loop, update every time
+			function spin13() {
+				var count = 0;
+				var start = Date.now();
+				while (Date.now() < start + 1000) {
+					count++;
+					page.result13 = count;
+				}
+			}
+
+			// Vue setImmediate, update once
+			function spin14() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) {
+						setImmediate(f);
+					} else {
+						page.result14 = count;
+					}
+				}
+			}
+
+			// Vue setImmediate, update every time
+			function spin15() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					if (Date.now() < start + 1000) {
+						count++;
+						page.result15 = count;
+						setImmediate(f);
+					}
+				}
+			}
+
+			// Vue window.requestAnimationFrame, update every time
+			function spin16() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				function f() {
+					if (Date.now() < start + 1000) {
+						count++;
+						page.result16 = count;
+						window.requestAnimationFrame(f);
+					}
+				}
+			}
+
+			// Vue setImmediate, update every animation frame
+			function spin17() {
+				var count = 0;
+				var start = Date.now();
+				f();
+				g();
+				function f() {
+					count++;
+					if (Date.now() < start + 1000) {
+						setImmediate(f);
+					}
+				}
+				function g() {
+					page.result17 = count;
+					if (Date.now() < start + 1000) {
+						window.requestAnimationFrame(g);
+					}
+				}
+			}
+
+		</script>
+
+	</body>
+</html>
