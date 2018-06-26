@@ -1,5 +1,5 @@
 
-var platformElectron = require("electron"); // Somehow this works even when electron isn't in node_modules anywhere
+var platformElectron = require("electron");
 var app = platformElectron.app;
 var win; // Keep a global reference to the window object so it's not garbage collected, which would close the window
 
